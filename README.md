@@ -51,7 +51,7 @@ Este es un sistema de inventario web desarrollado en **Django** para la gestión
 Para acceder a las opciones de administración, agregar productos o modificar stock, debes iniciar sesión haciendo clic en **"Iniciar Sesión Admin"** al final del menú lateral o acceder a `/admin/`.
 
 *   **Usuario**: `admin`
-*   **Contraseña**: `Admin123`
+*   **Contraseña**: `Admin123!`
 
 ---
 *Desarrollado para Evaluación de Django Backend INACAP.*
