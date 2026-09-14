@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Toma de Inventario - Noir{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-5">
+    <div>
+        <h2 class="mb-1">Toma de Inventario Física</h2>
+        <p class="text-muted-gothic">Anota rápidamente las salidas consumidas. El stock final se calculará automáticamente.</p>
+    </div>
+</div>
+
+<form method="POST" action="{% url 'inventario:toma_inventario' %}">
+    {% csrf_token %}
+    <div class="card card-gothic mb-4">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-gothic mb-0 align-middle text-center">
+                    <thead>
+                        <tr>
+                            <th class="ps-4 text-start">Producto</th>
+                            <th>Stock Actual</th>
+                            <th style="width: 200px;">Salida (Consumo)</th>
+                            <th>Stock Final Calculado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for insumo in insumos %}
+                        <tr>
+                            <td class="ps-4 text-start text-bone fw-bold">
+                                {{ insumo.nombre }}<br>
+                                <small class="text-muted-gothic fw-normal">{{ insumo.unidad_medida }}</small>
+                            </td>
+                            <td>
+                                <span class="fs-5 text-muted-gothic" id="actual_{{ insumo.id }}">{{ insumo.stock_actual|stringformat:".2f" }}</span>
+                            </td>
+                            <td>
+                                <input type="number" 
+                                       step="0.01" 
+                                       min="0" 
+                                       max="{{ insumo.stock_actual|stringformat:".2f" }}"
+                                       name="salida_{{ insumo.id }}" 
+                                       class="form-control text-center bg-dark text-bone border-gothic fs-5 py-2 salida-input"
+                                       data-id="{{ insumo.id }}"
+                                       placeholder="0.00">
+                            </td>
+                            <td>
+                                <span class="fs-4 text-bone" id="final_{{ insumo.id }}">{{ insumo.stock_actual|stringformat:".2f" }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Botón flotante estilo tablet / grande abajo -->
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end sticky-bottom pb-4">
+        <a href="{% url 'inventario:dashboard' %}" class="btn btn-gothic-outline btn-lg px-5">CANCELAR</a>
+        <button type="submit" class="btn btn-gothic-primary btn-lg px-5 shadow"><i class="bi bi-save me-2"></i> GUARDAR INVENTARIO</button>
+    </div>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('.salida-input');
+        
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                const id = this.getAttribute('data-id');
+                const actualText = document.getElementById('actual_' + id).innerText.replace(',', '.');
+                let actual = parseFloat(actualText);
+                let salida = parseFloat(this.value.replace(',', '.'));
+                
+                if (isNaN(salida)) salida = 0;
+                
+                let final = actual - salida;
+                if (final < 0) final = 0; // Prevent negative calculation for display
+                
+                const finalEl = document.getElementById('final_' + id);
+                finalEl.innerText = final.toFixed(2);
+                
+                // Efecto visual si bajó mucho
+                if (salida > 0) {
+                    finalEl.style.color = 'var(--accent-gold)';
+                } else {
+                    finalEl.style.color = 'var(--text-heading)';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

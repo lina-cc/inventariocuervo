@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Inventario Noir - Lista{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-5">
+    <h2>Catálogo de Insumos</h2>
+    <a href="{% url 'inventario:insumo_create' %}" class="btn btn-gothic-primary px-4 py-2">NUEVO INSUMO</a>
+</div>
+
+<div class="card card-gothic mb-4">
+    <div class="card-header pt-4 pb-3">
+        <form class="d-flex" method="GET" action="{% url 'inventario:insumo_list' %}">
+            <input class="form-control me-3" type="search" name="q" placeholder="Buscar insumo..." value="{{ request.GET.q }}">
+            <button class="btn btn-gothic-outline px-4" type="submit">FILTRAR</button>
+        </form>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-gothic mb-0 align-middle">
+                <thead>
+                    <tr>
+                        <th class="ps-4">Designación</th>
+                        <th>Categoría</th>
+                        <th>Precio/Unidad</th>
+                        <th>Existencias</th>
+                        <th>Mínimo</th>
+                        <th>Estado</th>
+                        <th class="text-end pe-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for insumo in insumos %}
+                    <tr {% if not insumo.activo %}style="opacity: 0.5; filter: grayscale(100%);"{% endif %}>
+                        <td class="ps-4 text-bone">
+                            {{ insumo.nombre }}
+                            {% if not insumo.activo %}
+                                <i class="bi bi-eye-slash ms-2 text-muted-gothic" title="Deshabilitado"></i>
+                            {% endif %}
+                        </td>
+                        <td><span class="text-muted-gothic small text-uppercase">{{ insumo.categoria }}</span></td>
+                        <td><span class="text-bone" style="color: #A3D9B5 !important;">${{ insumo.precio_unitario|floatformat:0 }}</span></td>
+                        <td><span class="text-bone">{{ insumo.stock_actual }}</span> <small class="text-muted">{{ insumo.unidad_medida }}</small></td>
+                        <td><span class="text-muted-gothic">{{ insumo.stock_minimo }}</span> <small class="text-muted">{{ insumo.unidad_medida }}</small></td>
+                        <td>
+                            {% if not insumo.activo %}
+                                <span class="badge badge-gothic-neutral">INACTIVO</span>
+                            {% elif insumo.stock_actual <= 0 %}
+                                <span class="badge badge-gothic-neutral">AGOTADO</span>
+                            {% elif insumo.esta_en_stock_critico %}
+                                <span class="badge badge-gothic-critical">CRÍTICO</span>
+                            {% else %}
+                                <span class="badge badge-gothic-ok">ÓPTIMO</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end pe-4">
+                            <a href="{% url 'inventario:insumo_update' insumo.pk %}" class="btn btn-sm btn-gothic-outline">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center py-5 text-muted-gothic">El catálogo está vacío.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

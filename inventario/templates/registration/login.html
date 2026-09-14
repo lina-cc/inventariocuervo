@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Iniciar Sesión - El Palacio del Cuervo{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5 mt-5">
+        <h2 class="mb-4 text-center" style="color: var(--accent-gold); font-family: 'Cinzel', serif;">
+            Acceso Administrador
+        </h2>
+        <div class="card card-gothic p-4">
+            <div class="card-body">
+                {% if form.errors %}
+                <div class="alert alert-danger" style="background-color: rgba(255,107,139,0.1); border-color: var(--status-critical); color: var(--status-critical);">
+                    Tu usuario y contraseña no coinciden. Inténtalo nuevamente.
+                </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-4">
+                        <label class="form-label text-muted-gothic">Usuario</label>
+                        {{ form.username }}
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label text-muted-gothic">Contraseña</label>
+                        {{ form.password }}
+                    </div>
+
+                    <div class="d-grid mt-5">
+                        <button class="btn btn-gothic-primary py-2" type="submit">INGRESAR</button>
+                    </div>
+                    <input type="hidden" name="next" value="{{ next }}" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilizar los inputs nativos de Django Auth para que parezcan góticos */
+    #id_username, #id_password {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background-color: rgba(20, 19, 22, 0.5);
+        border: 1px solid rgba(199, 168, 106, 0.2);
+        color: #f5efeb;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+    #id_username:focus, #id_password:focus {
+        outline: none;
+        border-color: #c9a86a;
+        box-shadow: 0 0 10px rgba(199, 168, 106, 0.1);
+        background-color: rgba(20, 19, 22, 0.8);
+    }
+</style>
+{% endblock %}

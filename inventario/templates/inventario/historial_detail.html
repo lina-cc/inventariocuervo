@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalle Cierre - Noir{% endblock %}
+
+{% block content %}
+<div class="mb-5">
+    <a href="{% url 'inventario:historial_list' %}" class="text-muted-gothic text-decoration-none mb-3 d-inline-block"><i class="bi bi-arrow-left"></i> Volver al historial</a>
+    <h2 class="mb-1">Cierre: {{ cierre.fecha|date:"d M Y" }}</h2>
+    <p class="text-muted-gothic">Realizado a las {{ cierre.fecha_hora|date:"H:i" }} por {{ cierre.operario }}</p>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card card-gothic p-3" style="border-top: 2px solid #A3D9B5;">
+            <div class="card-body">
+                <h6 class="text-muted-gothic mb-1 text-uppercase">Valor Total de Bodega al Momento del Cierre</h6>
+                <h1 class="text-bone mb-0" style="color: #A3D9B5 !important;">${{ cierre.valor_total_bodega|floatformat:0 }}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-gothic mb-4">
+    <div class="card-header bg-transparent pt-4 pb-3">
+        <h5 class="mb-0 text-bone">Fotografía del Inventario</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-gothic mb-0 align-middle">
+                <thead>
+                    <tr>
+                        <th class="ps-4">Producto</th>
+                        <th>Stock Existente</th>
+                        <th>Precio Unitario (Histórico)</th>
+                        <th>Valor Total Inmovilizado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detalle in cierre.detalles.all %}
+                    <tr>
+                        <td class="ps-4 text-bone fw-bold">{{ detalle.nombre_insumo_snapshot }}</td>
+                        <td><span class="text-bone fs-5">{{ detalle.stock_registrado }}</span> <small class="text-muted">{{ detalle.unidad_medida_snapshot }}</small></td>
+                        <td class="text-muted-gothic">${{ detalle.precio_unitario_snapshot|floatformat:0 }}</td>
+                        <td><span class="text-bone" style="color: #A3D9B5 !important;">${{ detalle.valor_total_snapshot|floatformat:0 }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+# Entorno virtual
+venv/
+env/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Django
+*.log
+local_settings.py
+.env
+
+# (La base de datos db.sqlite3 no está ignorada para que el profesor pueda probar con los datos actuales)

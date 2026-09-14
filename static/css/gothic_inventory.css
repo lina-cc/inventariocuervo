@@ -1,0 +1,217 @@
+:root {
+    /* Paleta de Colores "El Palacio del Cuervo" */
+    --bg-base: #141316; /* Negro Pluma */
+    --bg-surface: #231a24; /* Espresso Ciruela */
+    
+    --text-heading: #f5efeb; /* Pergamino */
+    --text-main: #c4bdb9; /* Gris Claro Ligeramente Cálido */
+    --text-muted: #948c9c; /* Gris Claro Muteado (Antes: #5a5560) */
+
+    --accent-primary: #c48b9f; /* Rosa Antiguo */
+    --accent-primary-hover: #b0788c;
+    --accent-gold: #c9a86a; /* Dorado Palacio */
+    --accent-gold-hover: #b49356;
+    
+    --status-ok: #c9a86a; /* Usaremos dorado para éxito / neutral */
+    --status-critical: #ff6b8b; /* Rojo Alerta */
+    --status-critical-text: #141316;
+    --status-low: #eab308; /* Advertencias */
+
+    /* Tipografías */
+    --font-heading: 'Cinzel', 'Cinzel Decorative', 'Pirata One', serif;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+/* Base Override */
+body {
+    background-color: var(--bg-base);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    font-weight: 400;
+}
+
+h1, h2, h3, h4, h5, h6, .brand-logo {
+    font-family: var(--font-heading);
+    color: var(--text-heading);
+    font-weight: 600;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(199, 168, 106, 0.4);
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--accent-gold);
+}
+
+/* Utilities */
+.text-bone { color: var(--text-heading) !important; }
+.text-muted-gothic, .form-text, .text-muted { color: var(--text-muted) !important; }
+.bg-gothic-dark { background-color: var(--bg-surface) !important; }
+.border-gothic { border: 1px solid rgba(199, 168, 106, 0.15) !important; }
+
+/* Sidebar */
+.sidebar-gothic {
+    background-color: transparent;
+    border-right: 1px solid rgba(199, 168, 106, 0.15);
+}
+.sidebar-gothic a {
+    color: var(--text-main);
+    transition: all 0.2s ease-in-out;
+    border-radius: 4px;
+}
+.sidebar-gothic a:hover, .sidebar-gothic a.active {
+    background-color: rgba(199, 168, 106, 0.1);
+    color: var(--text-heading);
+    box-shadow: inset 2px 0 0 var(--accent-gold);
+}
+
+/* Cards Minimalistas (Glassmorphism) */
+.card, .card-gothic {
+    background-color: rgba(35, 26, 36, 0.6) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(199, 168, 106, 0.15) !important;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(13, 11, 14, 0.7) !important;
+    color: var(--text-main);
+}
+.card-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid rgba(199, 168, 106, 0.15) !important;
+    color: var(--text-heading);
+}
+
+/* Elementos de Formulario (Inputs, Selects) */
+.form-control, .form-select, .form-control:focus, .form-select:focus {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border: none !important;
+    border-bottom: 2px solid rgba(199, 168, 106, 0.3) !important;
+    color: var(--text-heading) !important;
+    border-radius: 8px 8px 0 0 !important;
+    box-shadow: none !important;
+    transition: border-color 0.3s ease;
+}
+.form-control:focus, .form-select:focus {
+    border-bottom: 2px solid var(--accent-gold) !important;
+}
+.col-form-label, label {
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+/* Tablas */
+.table, .table-gothic {
+    color: var(--text-main);
+    background-color: transparent;
+}
+.table thead th, .table-gothic thead th {
+    background-color: transparent !important;
+    color: var(--text-heading) !important;
+    border-bottom: 1px solid rgba(199, 168, 106, 0.3) !important;
+    border-top: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+.table tbody td, .table-gothic tbody td {
+    background-color: transparent !important;
+    color: var(--text-main);
+    border-bottom: 1px solid rgba(199, 168, 106, 0.1) !important;
+}
+.table tbody tr:hover td, .table-gothic tbody tr:hover td {
+    background-color: rgba(199, 168, 106, 0.05) !important;
+}
+
+/* Badges / Status */
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.8em;
+    border-radius: 4px;
+}
+.bg-success, .badge-gothic-ok {
+    background-color: rgba(163, 217, 181, 0.15) !important;
+    color: #a3d9b5 !important;
+    border: 1px solid #a3d9b5 !important;
+}
+.bg-danger, .badge-gothic-critical {
+    background-color: rgba(255, 107, 139, 0.2) !important;
+    color: var(--status-critical) !important;
+    border: 1px solid var(--status-critical) !important;
+}
+.bg-warning, .badge-gothic-low {
+    background-color: rgba(234, 179, 8, 0.2) !important;
+    color: var(--status-low) !important;
+    border: 1px solid var(--status-low) !important;
+}
+.bg-secondary, .badge-gothic-neutral {
+    background-color: rgba(90, 85, 96, 0.2) !important;
+    color: var(--text-muted) !important;
+    border: 1px solid var(--text-muted) !important;
+}
+
+/* Botones */
+.btn-primary, .btn-gothic-accent {
+    background-color: var(--accent-primary) !important;
+    color: var(--bg-base) !important;
+    border: none !important;
+    border-radius: 30px !important;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn-primary:hover, .btn-gothic-accent:hover {
+    background-color: var(--accent-primary-hover) !important;
+    color: var(--bg-base) !important;
+    transform: translateY(-2px);
+}
+
+.btn-secondary, .btn-gothic-primary, .btn-gothic-outline, .btn-outline-primary {
+    background-color: var(--bg-surface) !important;
+    color: var(--accent-gold) !important;
+    border: 1px solid var(--accent-gold) !important;
+    border-radius: 30px !important;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn-secondary:hover, .btn-gothic-primary:hover, .btn-gothic-outline:hover, .btn-outline-primary:hover {
+    background-color: var(--accent-gold) !important;
+    color: var(--bg-base) !important;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background-color: var(--bg-surface) !important;
+    color: var(--status-critical) !important;
+    border: 1px solid var(--status-critical) !important;
+    border-radius: 30px !important;
+}
+.btn-danger:hover {
+    background-color: var(--status-critical) !important;
+    color: var(--bg-base) !important;
+}
+
+/* Alertas / Toasts */
+.alert, .toast {
+    background-color: rgba(20, 19, 22, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border: none !important;
+    border-radius: 4px !important;
+    color: var(--text-heading);
+}
+.alert-success {
+    border-left: 4px solid var(--accent-gold) !important;
+}
+.alert-warning {
+    border-left: 4px solid var(--status-low) !important;
+}
+.alert-danger {
+    border-left: 4px solid var(--status-critical) !important;
+}

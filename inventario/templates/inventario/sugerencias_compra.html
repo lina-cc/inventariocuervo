@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Sugerencias de Compra - El Palacio del Cuervo{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0"><i class="bi bi-cart-x"></i> Sugerencias de Compra</h2>
+        <a href="{% url 'inventario:exportar_compras_excel' %}" class="btn btn-gothic-accent">
+            <i class="bi bi-file-earmark-excel"></i> Exportar Excel (.xlsx)
+        </a>
+    </div>
+
+    <div class="card card-gothic mb-4">
+        <div class="card-body">
+            <p class="text-muted-gothic">
+                Estos son los insumos que se encuentran en stock crítico (igual o menor al mínimo). 
+                Se sugiere comprar lo suficiente para llevar el stock al <strong>doble del mínimo</strong> establecido.
+            </p>
+            <h4 class="text-bone">Costo Total Estimado de Reposición: <span style="color: var(--accent-gold);">${{ costo_total_estimado|floatformat:0 }}</span></h4>
+        </div>
+    </div>
+
+    <div class="card card-gothic">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-gothic table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Proveedor</th>
+                            <th>Insumo</th>
+                            <th>Stock Actual</th>
+                            <th>Stock Mínimo</th>
+                            <th>Sugerido Comprar</th>
+                            <th>Costo Estimado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for insumo in insumos_comprar %}
+                        <tr>
+                            <td>
+                                {% if insumo.proveedor %}
+                                    <i class="bi bi-building me-1 text-muted-gothic"></i> {{ insumo.proveedor.nombre_empresa }}
+                                {% else %}
+                                    <span class="text-muted-gothic">Sin Proveedor</span>
+                                {% endif %}
+                            </td>
+                            <td><strong>{{ insumo.nombre }}</strong> <br><small class="text-muted-gothic">{{ insumo.categoria }}</small></td>
+                            <td>
+                                <span class="badge badge-gothic-critical">{{ insumo.stock_actual }} {{ insumo.unidad_medida }}</span>
+                            </td>
+                            <td>{{ insumo.stock_minimo }} {{ insumo.unidad_medida }}</td>
+                            <td>
+                                <strong style="color: var(--accent-gold);">{{ insumo.cantidad_sugerida }} {{ insumo.unidad_medida }}</strong>
+                            </td>
+                            <td>${{ insumo.costo_estimado|floatformat:0 }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-4">
+                                <i class="bi bi-check-circle text-success fs-1"></i>
+                                <p class="mt-2 text-muted-gothic">No hay insumos con stock crítico actualmente.</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

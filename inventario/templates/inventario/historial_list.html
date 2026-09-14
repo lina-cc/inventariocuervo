@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Historial - Noir{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-5">
+    <h2>Historial de Cierres Diarios</h2>
+</div>
+
+<div class="card card-gothic mb-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-gothic mb-0 align-middle">
+                <thead>
+                    <tr>
+                        <th class="ps-4">Fecha de Cierre</th>
+                        <th>Hora Exacta</th>
+                        <th>Valor Monetario en Bodega</th>
+                        <th>Operario Responsable</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cierre in cierres %}
+                    <tr>
+                        <td class="ps-4 text-bone">{{ cierre.fecha|date:"l, d \d\e F \d\e Y" }}</td>
+                        <td class="text-muted-gothic">{{ cierre.fecha_hora|date:"H:i" }} hrs</td>
+                        <td><span class="text-bone" style="color: #A3D9B5 !important;">${{ cierre.valor_total_bodega|floatformat:0 }}</span></td>
+                        <td class="text-muted-gothic">{{ cierre.operario|default:"Automático/Sistema" }}</td>
+                        <td>
+                            <a href="{% url 'inventario:historial_detail' cierre.id %}" class="btn btn-sm btn-gothic-outline">VER DETALLE <i class="bi bi-arrow-right"></i></a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5 text-muted-gothic">No hay cierres de inventario registrados aún.<br><small>Los cierres se generan automáticamente al realizar una "Toma de Inventario Física".</small></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
