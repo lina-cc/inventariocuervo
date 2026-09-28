@@ -1,0 +1,7 @@
+Django>=5.1
+django-crispy-forms
+crispy-bootstrap5
+openpyxl
+django-environ
+gunicorn
+whitenoise
